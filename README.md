@@ -6,7 +6,6 @@
   <a href="#up--running"> Up & Running </a> //
   <a href="#scripts"> Scripts </a> //
   <a href="#estrutura"> Estrutura </a> //
-  <a target="_blank" href="https://stg-portocred-website.netlify.app/"> Staging </a>
  </p>
 
 ## Pré-requisitos
