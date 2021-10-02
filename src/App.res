@@ -12,7 +12,7 @@ Emotion.injectGlobal({
   "html": {
     "fontSize": "10px",
   },
-  "html, body, body > div": {
+  "html, body": {
     "width": "100%",
     "height": "100%",
   },
