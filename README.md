@@ -35,7 +35,13 @@ Install node dependencies:
   yarn rescript:build
 ```
 
-2. Executar o server de dev do `next`:
+3. Executar o mock server json-api:
+
+```sh
+ yarn api:start
+```
+
+3. Executar o server de dev do `next`:
 
 ```sh
  yarn dev
