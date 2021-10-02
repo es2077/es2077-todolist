@@ -47,7 +47,7 @@ module EmptyState = {
 
 module TaskItem = {
   @react.component
-  let make = (~title, ~date) => {
+  let make = (~title, ~date, ~completed) => {
     <Box
       display=[xs(#flex)]
       justifyContent=[xs(#"space-between")]
@@ -75,14 +75,14 @@ module TaskItem = {
           {date->s}
         </Typography>
       </Box>
-      <Checkbox />
+      <Checkbox checked=completed />
     </Box>
   }
 }
 
 @react.component
 let make = () => {
-  let result = useHome()
+  let {tasksResult, isCreatingTask, handleSubmit} = useHome()
 
   <Box
     overflow=[xs(#auto)]
@@ -91,7 +91,7 @@ let make = () => {
     bgColor=[xs(Theme.Colors.black)]>
     <Box tag=#header display=[xs(#flex)] justifyContent=[xs(#center)] py=[xs(6)]> <Logo /> </Box>
     <Box display=[xs(#flex)] justifyContent=[xs(#center)]>
-      <Box mt=[xs(10)] width=[xs(100.0->#pct)] maxW=[xs(63.4->#rem)]>
+      <Box px=[xs(3)] mt=[xs(10)] width=[xs(100.0->#pct)] maxW=[xs(63.4->#rem)]>
         <Typography
           color=[xs(Theme.Colors.white)] fontSize=[xs(2.4->#rem)] letterSpacing=[xs(-0.035->#rem)]>
           {`Nova tarefa`->s}
@@ -103,10 +103,10 @@ let make = () => {
             position=[xs(#absolute)]
             right=[xs(1.0->#rem)]
             top=[xs(1.0->#rem)]>
-            <Button> {`Adicionar`->s} </Button>
+            <Button loading=isCreatingTask onClick={_ => handleSubmit()}> {`Adicionar`->s} </Button>
           </Box>
         </Box>
-        {switch result {
+        {switch tasksResult {
         | Data([]) => <EmptyState />
         | Loading => <Loading />
         | Error => <p> {`Error`->s} </p>
@@ -115,10 +115,11 @@ let make = () => {
             {tasks->map((task, key) => {
               <TaskItem
                 key
+                completed=task.completed
                 title=task.title
                 date={task.createdAt
                 ->Js.Date.fromString
-                ->DateFns.format(`dd/MM/yyyy 'às' hh'h'mm'm'`)}
+                ->DateFns.format(`dd/MM/yyyy 'às' hh:mm aaaaa'm'`)}
               />
             })}
           </Box>

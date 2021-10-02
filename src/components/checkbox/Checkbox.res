@@ -62,8 +62,8 @@ module Style = {
 }
 
 @react.component
-let make = () => {
+let make = (~checked) => {
   <Box tag=#label className=Style.checkbox>
-    <input type_="checkbox" /> <div> <img src=checkIcon /> </div>
+    <input checked type_="checkbox" /> <div> <img src=checkIcon /> </div>
   </Box>
 }
