@@ -15,7 +15,7 @@ Emotion.injectGlobal({
   "html, body": {
     "width": "100%",
     "height": "100%",
-    "background": Theme.Colors.black->Theme.Colors.toString
+    "background": Theme.Colors.black->Theme.Colors.toString,
   },
   "*": {
     "boxSizing": "border-box",
@@ -27,10 +27,8 @@ Emotion.injectGlobal({
   },
 })
 
-let client = ReactQuery.Provider.createClient()
-
 let default = (props): React.element => {
   let {component, pageProps} = props
   let children = React.createElement(component, pageProps)
-  <ReactQuery.Provider client> children </ReactQuery.Provider>
+  children
 }

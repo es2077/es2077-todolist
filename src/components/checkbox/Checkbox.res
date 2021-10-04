@@ -52,7 +52,7 @@ module Style = {
       "> img": {
         "z-index": "10",
         "animation": `${fillAnimation} 300ms forwards`,
-        "animation-delay": "100ms",
+        "animationDelay": "100ms",
       },
       "&:after": {
         "animation": `${fillAnimation} 300ms forwards`,
