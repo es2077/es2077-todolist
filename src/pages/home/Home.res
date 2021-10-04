@@ -1,13 +1,6 @@
 open Ancestor.Default
 open Render
 
-let {useHome} = module(HomeHook)
-
-module DateFns = {
-  @module("date-fns")
-  external format: (Js.Date.t, string) => string = "format"
-}
-
 module Loading = {
   @react.component
   let make = () =>
@@ -82,8 +75,6 @@ module TaskItem = {
 
 @react.component
 let make = () => {
-  let {tasksResult, isCreatingTask, handleSubmit} = useHome()
-
   <Box
     overflow=[xs(#auto)]
     width=[xs(100.0->#pct)]
@@ -103,27 +94,10 @@ let make = () => {
             position=[xs(#absolute)]
             right=[xs(1.0->#rem)]
             top=[xs(1.0->#rem)]>
-            <Button loading=isCreatingTask onClick={_ => handleSubmit()}> {`Adicionar`->s} </Button>
+            <Button> {`Adicionar`->s} </Button>
           </Box>
         </Box>
-        {switch tasksResult {
-        | Data([]) => <EmptyState />
-        | Loading => <Loading />
-        | Error => <p> {`Error`->s} </p>
-        | Data(tasks) =>
-          <Box mt=[xs(4)]>
-            {tasks->map((task, key) => {
-              <TaskItem
-                key
-                completed=task.completed
-                title=task.title
-                date={task.createdAt
-                ->Js.Date.fromString
-                ->DateFns.format(`dd/MM/yyyy 'às' hh:mm aaaaa'm'`)}
-              />
-            })}
-          </Box>
-        }}
+        <EmptyState />
       </Box>
     </Box>
   </Box>
