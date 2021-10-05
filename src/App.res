@@ -27,8 +27,11 @@ Emotion.injectGlobal({
   },
 })
 
+let client = ReactQuery.Provider.createClient()
+
 let default = (props): React.element => {
   let {component, pageProps} = props
   let children = React.createElement(component, pageProps)
-  children
+
+  <ReactQuery.Provider client> children </ReactQuery.Provider>
 }

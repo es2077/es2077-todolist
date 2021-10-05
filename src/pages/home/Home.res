@@ -5,7 +5,7 @@ module Loading = {
   @react.component
   let make = () =>
     <Box display=[xs(#flex)] alignItems=[xs(#center)] justifyContent=[xs(#center)] py=[xs(14)]>
-      <Base width=[xs(5.6->#rem)] tag=#img src="/static/spinner.svg" />
+      <Base width=[xs(5.6->#rem)] tag=#img src="/spinner.svg" />
     </Box>
 }
 
@@ -18,7 +18,7 @@ module EmptyState = {
       flexDirection=[xs(#column)]
       alignItems=[xs(#center)]
       justifyContent=[xs(#center)]>
-      <Base tag=#img src="/static/empty-state-image.svg" width=[xs(19.6->#rem)] />
+      <Base tag=#img src="/empty-state-image.svg" width=[xs(19.6->#rem)] />
       <Typography
         mt=[xs(2)]
         color=[xs(Theme.Colors.white)]
@@ -40,7 +40,7 @@ module EmptyState = {
 
 module TaskItem = {
   @react.component
-  let make = (~title, ~date, ~completed) => {
+  let make = (~title, ~createdAt, ~completed) => {
     <Box
       display=[xs(#flex)]
       justifyContent=[xs(#"space-between")]
@@ -65,7 +65,7 @@ module TaskItem = {
           color=[xs(Theme.Colors.gray2)]
           fontSize=[xs(1.4->#rem)]
           letterSpacing=[xs(-0.035->#rem)]>
-          {date->s}
+          {createdAt->s}
         </Typography>
       </Box>
       <Checkbox checked=completed />
@@ -73,8 +73,14 @@ module TaskItem = {
   }
 }
 
+module DateFns = {
+  @module("date-fns") external format: (Js.Date.t, string) => string = "format"
+}
+
 @react.component
 let make = () => {
+  let result = TaskHooks.useTasks()
+
   <Box
     overflow=[xs(#auto)]
     width=[xs(100.0->#pct)]
@@ -97,7 +103,22 @@ let make = () => {
             <Button> {`Adicionar`->s} </Button>
           </Box>
         </Box>
-        <EmptyState />
+        {switch result {
+        | Loading => <Loading />
+        | Empty => <EmptyState />
+        | Error => "Error :("->s
+        | Data(tasks) =>
+          <Box mt=[xs(4)]>
+            {tasks->map((task, key) => {
+              <TaskItem
+                key
+                title=task.title
+                completed=task.completed
+                createdAt={task.createdAt->Js.Date.fromString->DateFns.format(`dd/MM/yyyy hh:mm`)}
+              />
+            })}
+          </Box>
+        }}
       </Box>
     </Box>
   </Box>

@@ -29,7 +29,7 @@ let make = (~children, ~onClick=?, ~loading=false, ~disabled=false) => {
   <button disabled ?onClick className=Styles.button>
     {switch loading {
     | false => children
-    | true => <Base width=[xs(2.4->#rem)] tag=#img src="/static/spinner.svg" />
+    | true => <Base width=[xs(2.4->#rem)] tag=#img src="/spinner.svg" />
     }}
   </button>
 }
